@@ -1,2 +1,7 @@
-def main() -> None:
-    print("Hello from fastapi-hw!")
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def root():
+    return {"hello": 1}
