@@ -7,7 +7,9 @@ authors = [
     { name = "Alexandr Belov", email = "aleksandr.b.dev-f@innofin.team" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "fastapi[standard]>=0.141.1",
+]
 
 [project.scripts]
 fastapi-hw = "fastapi_hw:main"
@@ -15,3 +17,8 @@ fastapi-hw = "fastapi_hw:main"
 [build-system]
 requires = ["uv_build>=0.12.9,<0.13.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.5",
+]
