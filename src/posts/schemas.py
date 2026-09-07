@@ -1,7 +1,9 @@
 from pydantic import BaseModel, field_validator
 
+
 class PostPath(BaseModel):
     post_id: int
+
 
 class CreatePostRequest(BaseModel):
     content: str
@@ -13,6 +15,7 @@ class CreatePostRequest(BaseModel):
             raise ValueError("content should be valid string")
         return value
 
+
 class UpdatePostRequest(BaseModel):
     content: str
 
@@ -23,6 +26,19 @@ class UpdatePostRequest(BaseModel):
             raise ValueError("content should be valid string")
         return value
 
+
 class UpdatePostResponse(BaseModel):
     id: int
     content: str
+
+
+class GetPostResponse(BaseModel):
+    post_id: int
+
+
+class CreatePostResponse(BaseModel):
+    content: str
+
+
+class DeletePostResponse(BaseModel):
+    removed_post_id: int
