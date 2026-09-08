@@ -8,6 +8,7 @@ from .schemas import (
     CreatePostResponse,
     DeletePostResponse,
 )
+from .service import PostServiceDeps
 
 router = APIRouter(prefix="/posts", tags=["Posts"])
 
@@ -19,8 +20,9 @@ router = APIRouter(prefix="/posts", tags=["Posts"])
     Получения id поста
 """,
 )
-def get_post(path: PostPath = Depends()):
-    return GetPostResponse(post_id=path.post_id)
+def get_post(service: PostServiceDeps, path: PostPath = Depends()):
+    res = service.get_post_id(path.post_id)
+    return GetPostResponse(post_id=res)
 
 
 @router.post(
