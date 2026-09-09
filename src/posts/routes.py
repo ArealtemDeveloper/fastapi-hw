@@ -1,4 +1,6 @@
 from fastapi import APIRouter, Depends
+
+from core.settings import SettingsDeps
 from .schemas import (
     PostPath,
     CreatePostRequest,
@@ -20,8 +22,14 @@ router = APIRouter(prefix="/posts", tags=["Posts"])
     Получения id поста
 """,
 )
-def get_post(service: PostServiceDeps, path: PostPath = Depends()):
+def get_post(
+    settings: SettingsDeps, service: PostServiceDeps, path: PostPath = Depends()
+):
     res = service.get_post_id(path.post_id)
+    print(settings.app.name)
+    print(settings.db.url)
+    print(settings.post_settings.debounce_time)
+    print(settings.auth.secret)
     return GetPostResponse(post_id=res)
 
 
