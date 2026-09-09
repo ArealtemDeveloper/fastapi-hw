@@ -1,6 +1,7 @@
+import logging
+
 from fastapi import APIRouter, Depends
 
-from core.settings import SettingsDeps
 from .schemas import (
     PostPath,
     CreatePostRequest,
@@ -14,6 +15,7 @@ from .service import PostServiceDeps
 
 router = APIRouter(prefix="/posts", tags=["Posts"])
 
+logger = logging.getLogger(__name__)
 
 @router.get(
     "/{post_id}",
@@ -23,13 +25,10 @@ router = APIRouter(prefix="/posts", tags=["Posts"])
 """,
 )
 def get_post(
-    settings: SettingsDeps, service: PostServiceDeps, path: PostPath = Depends()
+    service: PostServiceDeps, path: PostPath = Depends()
 ):
     res = service.get_post_id(path.post_id)
-    print(settings.app.name)
-    print(settings.db.url)
-    print(settings.post_settings.debounce_time)
-    print(settings.auth.secret)
+    logger.info("Post id - %s", res)
     return GetPostResponse(post_id=res)
 
 
