@@ -8,6 +8,7 @@ from alembic import context
 from core.db import Base
 from core.settings import Settings
 from posts.model import Post
+from users.model import User
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

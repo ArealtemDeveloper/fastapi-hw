@@ -2,8 +2,10 @@ import logging
 import sys
 
 from fastapi import FastAPI
-from posts import routes as posts_routes
 from core.settings import Settings
+
+from posts import routes as posts_routes
+from users import routes as users_routes
 
 
 def create_app():
@@ -23,11 +25,15 @@ def create_app():
         title="Posts Api",
         description="Проект постов",
         version="0.0.1",
-        openapi_tags=[{"name": "Posts", "description": "Управление постами"}],
+        openapi_tags=[
+            {"name": "Posts", "description": "Управление постами"},
+            {"name": "Users", "description": "Управление пользователями"},
+        ],
     )
 
     app.state.settings = settings
     app.include_router(posts_routes.router)
+    app.include_router(users_routes.router)
     return app
 
 

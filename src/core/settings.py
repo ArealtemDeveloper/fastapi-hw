@@ -17,6 +17,7 @@ class DatabaseSettigs(BaseModel):
 
 class AuthSettings(BaseModel):
     secret: str
+    token_ttl: int
 
 
 class PostSettings(BaseModel):
@@ -34,6 +35,7 @@ class Settings(BaseSettings):
     database_url: str
     database_url_sync: str
     secret: str
+    token_ttl: int
     minimal_post_debounce_time: int
 
     @property
@@ -46,7 +48,7 @@ class Settings(BaseSettings):
 
     @property
     def auth(self) -> AuthSettings:
-        return AuthSettings(secret=self.secret)
+        return AuthSettings(secret=self.secret, token_ttl=self.token_ttl)
 
     @property
     def post_settings(self) -> PostSettings:
