@@ -40,6 +40,7 @@ async def get_post(service: PostServiceDeps, path: PostPath = Depends()):
         updated_at=post.updated_at,
         likes_count=post.likes_count,
         is_deleted=post.is_deleted,
+        author_id=post.author_id,
     )
 
 
@@ -82,6 +83,7 @@ async def create_post(service: PostServiceDeps, data: CreatePostRequest):
         updated_at=post.updated_at,
         likes_count=post.likes_count,
         is_deleted=post.is_deleted,
+        author_id=post.author_id,
     )
 
 
@@ -107,6 +109,7 @@ async def update_post(
         updated_at=post.updated_at,
         likes_count=post.likes_count,
         is_deleted=post.is_deleted,
+        author_id=post.author_id,
     )
 
 
@@ -146,4 +149,5 @@ async def increase_post_like(service: PostServiceDeps, path: PostPath = Depends(
         updated_at=post.updated_at,
         likes_count=post.likes_count,
         is_deleted=post.is_deleted,
+        author_id=post.author_id,
     )

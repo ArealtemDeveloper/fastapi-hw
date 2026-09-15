@@ -42,6 +42,7 @@ class GetPostResponse(BaseModel):
     updated_at: datetime
     likes_count: int
     is_deleted: bool
+    author_id: int | None
 
 
 class CreatePostResponse(BaseModel):
@@ -51,6 +52,7 @@ class CreatePostResponse(BaseModel):
     updated_at: datetime
     likes_count: int
     is_deleted: bool
+    author_id: int | None
 
 
 class UpdatePostResponse(BaseModel):
@@ -60,6 +62,7 @@ class UpdatePostResponse(BaseModel):
     updated_at: datetime
     likes_count: int
     is_deleted: bool
+    author_id: int | None
 
 
 class GetAllPostsResponse(BaseModel):
