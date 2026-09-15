@@ -9,6 +9,7 @@ from core.db import Base
 if TYPE_CHECKING:
     from users.model import User
 
+
 class Post(Base):
     __tablename__ = "posts"
 
@@ -24,12 +25,11 @@ class Post(Base):
     )
     likes_count: Mapped[int] = mapped_column(default=0, nullable=True)
     is_deleted: Mapped[bool] = mapped_column(default=False, nullable=False)
-    author_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=True, default=1)
-
-    user: Mapped["User"] = relationship(
-        "User",
-        back_populates="posts"
+    author_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=True, default=1
     )
+
+    user: Mapped["User"] = relationship("User", back_populates="posts")
 
     def __init__(self, content: str):
         self.content = content

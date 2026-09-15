@@ -29,7 +29,9 @@ class UserService:
             return None
 
         hashed_password = hash_password(data.password)
-        formatted_user = User(email=data.email, password_hash=hashed_password)
+        formatted_user = User(
+            email=data.email, password_hash=hashed_password, name=data.name
+        )
 
         await self.repo.save(formatted_user)
         token = create_access_token(formatted_user.id)

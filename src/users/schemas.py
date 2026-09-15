@@ -2,8 +2,16 @@ from pydantic import BaseModel, field_validator
 
 
 class UserRegisterRequest(BaseModel):
+    name: str
     email: str
     password: str
+
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, value: str):
+        if not value.strip():
+            raise ValueError("name should be valid string")
+        return value
 
     @field_validator("email")
     @classmethod
@@ -42,6 +50,7 @@ class UserLoginRequest(BaseModel):
 class GetUserResponse(BaseModel):
     id: int
     email: str
+    name: str
 
 
 class TokenResponse(BaseModel):

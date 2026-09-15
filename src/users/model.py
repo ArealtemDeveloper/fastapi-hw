@@ -9,10 +9,12 @@ from core.db import Base
 if TYPE_CHECKING:
     from posts.model import Post
 
+
 class User(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
     email: Mapped[str] = mapped_column(
         String(255), unique=True, nullable=False, index=True
     )
@@ -23,9 +25,10 @@ class User(Base):
         "Post",
         back_populates="user",
         cascade="all, delete-orphan",
-        passive_deletes=True
+        passive_deletes=True,
     )
 
-    def __init__(self, email: str, password_hash: str):
+    def __init__(self, name: str, email: str, password_hash: str):
+        self.name = name
         self.email = email
         self.password_hash = password_hash

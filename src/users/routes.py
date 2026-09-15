@@ -26,7 +26,7 @@ async def get_user(service: UserServiceDeps, user_id: int):
     if user is None:
         raise HTTPException(404, "User not found")
 
-    return GetUserResponse(id=user.id, email=user.email)
+    return GetUserResponse(id=user.id, email=user.email, name=user.name)
 
 
 @router.post(
