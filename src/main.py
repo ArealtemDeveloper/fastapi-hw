@@ -10,7 +10,7 @@ def create_app():
     logging.basicConfig(
         level=logging.INFO,
         stream=sys.stdout,
-        format="%(asctime)s [%(levelname)s] %(name)s - %(message)s"
+        format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
     )
 
     for name in ("uvicorn", "uvicorn.error", "uvicorn.access"):

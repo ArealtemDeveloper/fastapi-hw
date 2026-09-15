@@ -1,8 +1,15 @@
-from pydantic import BaseModel, field_validator
+from datetime import datetime
+
+from pydantic import BaseModel, Field, field_validator
 
 
 class PostPath(BaseModel):
     post_id: int
+
+
+class GetAllPostsParams(BaseModel):
+    offset: int = Field(0, ge=0)
+    limit: int = Field(20, ge=1)
 
 
 class CreatePostRequest(BaseModel):
@@ -18,6 +25,7 @@ class CreatePostRequest(BaseModel):
 
 class UpdatePostRequest(BaseModel):
     content: str
+    likes_count: int
 
     @field_validator("content")
     @classmethod
@@ -27,17 +35,38 @@ class UpdatePostRequest(BaseModel):
         return value
 
 
-class UpdatePostResponse(BaseModel):
+class GetPostResponse(BaseModel):
     id: int
     content: str
-
-
-class GetPostResponse(BaseModel):
-    post_id: int
+    created_at: datetime
+    updated_at: datetime
+    likes_count: int
+    is_deleted: bool
 
 
 class CreatePostResponse(BaseModel):
+    id: int
     content: str
+    created_at: datetime
+    updated_at: datetime
+    likes_count: int
+    is_deleted: bool
+
+
+class UpdatePostResponse(BaseModel):
+    id: int
+    content: str
+    created_at: datetime
+    updated_at: datetime
+    likes_count: int
+    is_deleted: bool
+
+
+class GetAllPostsResponse(BaseModel):
+    posts: list[GetPostResponse]
+    total: int
+    offset: int
+    limit: int
 
 
 class DeletePostResponse(BaseModel):
