@@ -1,15 +1,29 @@
 from fastapi import APIRouter, HTTPException
 
+from users.current_user import CurrentUserDeps
 from users.schemas import (
     GetUserResponse,
-    UserLoginRequest,
     TokenResponse,
+    UserLoginRequest,
     UserRegisterRequest,
 )
 from users.service import UserServiceDeps
 
-
 router = APIRouter(prefix="/v1/users", tags=["Users"])
+
+
+@router.get(
+    "/me",
+    response_model=GetUserResponse,
+    status_code=200,
+    description="""
+    Получение информации о текущем пользователе
+""",
+)
+async def get_me(current_user: CurrentUserDeps):
+    return GetUserResponse(
+        id=current_user.id, email=current_user.email, name=current_user.name
+    )
 
 
 @router.get(

@@ -25,6 +25,8 @@ class UserRegisterRequest(BaseModel):
     def validate_password(cls, value: str):
         if not value.strip():
             raise ValueError("password should be valid string")
+        if len(value.encode("utf-8")) > 72:
+            raise ValueError("password must not exceed 72 UTF-8 bytes")
         return value
 
 
@@ -44,6 +46,8 @@ class UserLoginRequest(BaseModel):
     def validate_password(cls, value: str):
         if not value.strip():
             raise ValueError("password should be valid string")
+        if len(value.encode("utf-8")) > 72:
+            raise ValueError("password must not exceed 72 UTF-8 bytes")
         return value
 
 

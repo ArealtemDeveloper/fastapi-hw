@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class PostPath(BaseModel):
@@ -9,11 +9,11 @@ class PostPath(BaseModel):
 
 class GetAllPostsParams(BaseModel):
     offset: int = Field(0, ge=0)
-    limit: int = Field(20, ge=1)
+    limit: int = Field(20, ge=1, le=100)
 
 
 class CreatePostRequest(BaseModel):
-    content: str
+    content: str = Field(max_length=280)
 
     @field_validator("content")
     @classmethod
@@ -24,8 +24,8 @@ class CreatePostRequest(BaseModel):
 
 
 class UpdatePostRequest(BaseModel):
-    content: str
-    likes_count: int
+    content: str = Field(max_length=280)
+    likes_count: int = Field(ge=0)
 
     @field_validator("content")
     @classmethod
@@ -35,7 +35,9 @@ class UpdatePostRequest(BaseModel):
         return value
 
 
-class GetPostResponse(BaseModel):
+class PostResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     content: str
     created_at: datetime
@@ -43,30 +45,23 @@ class GetPostResponse(BaseModel):
     likes_count: int
     is_deleted: bool
     author_id: int | None
+    parent_id: int | None
 
 
-class CreatePostResponse(BaseModel):
-    id: int
-    content: str
-    created_at: datetime
-    updated_at: datetime
-    likes_count: int
-    is_deleted: bool
-    author_id: int | None
+class GetPostResponse(PostResponse):
+    replies: list[PostResponse] = Field(default_factory=list)
 
 
-class UpdatePostResponse(BaseModel):
-    id: int
-    content: str
-    created_at: datetime
-    updated_at: datetime
-    likes_count: int
-    is_deleted: bool
-    author_id: int | None
+class CreatePostResponse(PostResponse):
+    pass
+
+
+class UpdatePostResponse(PostResponse):
+    pass
 
 
 class GetAllPostsResponse(BaseModel):
-    posts: list[GetPostResponse]
+    posts: list[PostResponse]
     total: int
     offset: int
     limit: int

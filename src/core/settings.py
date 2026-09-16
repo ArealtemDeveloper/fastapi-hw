@@ -2,8 +2,8 @@ from typing import Annotated
 from urllib.parse import urlparse
 
 from fastapi import Depends, Request
+from pydantic import BaseModel, Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import BaseModel, field_validator
 
 
 class AppSettings(BaseModel):
@@ -36,7 +36,7 @@ class Settings(BaseSettings):
     database_url_sync: str
     secret: str
     token_ttl: int
-    minimal_post_debounce_time: int
+    minimal_post_debounce_time: int = Field(ge=0)
 
     @property
     def app(self) -> AppSettings:

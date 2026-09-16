@@ -1,5 +1,7 @@
 from typing import Annotated
+
 from fastapi import Depends
+from starlette.concurrency import run_in_threadpool
 
 from users.jwt import create_access_token
 from users.model import User
@@ -28,7 +30,7 @@ class UserService:
         if user:
             return None
 
-        hashed_password = hash_password(data.password)
+        hashed_password = await run_in_threadpool(hash_password, data.password)
         formatted_user = User(
             email=data.email, password_hash=hashed_password, name=data.name
         )
@@ -43,7 +45,9 @@ class UserService:
 
         if user is None:
             return None
-        if not verify_password(data.password, user.password_hash):
+        if not await run_in_threadpool(
+            verify_password, data.password, user.password_hash
+        ):
             return None
 
         token = create_access_token(user.id)
