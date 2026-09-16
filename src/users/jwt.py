@@ -24,5 +24,5 @@ def decode_access_token(token: str) -> int | None:
         )
         user_id = int(payload["sub"])
         return user_id if user_id > 0 else None
-    except jwt.PyJWTError, ValueError, KeyError, TypeError:
+    except (jwt.PyJWTError, ValueError, KeyError, TypeError):
         return None
